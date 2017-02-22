@@ -67,7 +67,7 @@ print("UMSI faculty directory emails\n")
 
 base_url = 'https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=4'
 stem_url = 'https://www.si.umich.edu'
-r = requests.get(base_url)
+r = requests.get(base_url, headers={'User-Agent': 'SI_CLASS'})
 soup = BeautifulSoup(r.text, "html.parser")
 allEmails = []
 allContactLinks = []
@@ -90,12 +90,12 @@ while True:
     if nextPage == []:
         break
     else:
-        r = requests.get(stem_url + nextPage[0]['href'])
+        r = requests.get(stem_url + nextPage[0]['href'], headers={'User-Agent': 'SI_CLASS'})
         soup = BeautifulSoup(r.text, "html.parser")
         ContactDetailsLinks(allContactLinks)
 
 for link in allContactLinks:
-    r = requests.get(link)
+    r = requests.get(link, headers={'User-Agent': 'SI_CLASS'})
     soup = BeautifulSoup(r.text, "html.parser")
 
     divSoup= soup.find_all("div", {"class": "field field-name-field-person-email field-type-email field-label-inline clearfix"})
